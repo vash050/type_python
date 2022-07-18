@@ -15,7 +15,7 @@ class Coordinates:
 
 @profiler
 def get_gps_coordinates() -> Coordinates:
-    process = Popen(["curl", "ipinfo.io"], stdout=PIPE)
+    process = Popen(["curl", "-s", "ipinfo.io"], stdout=PIPE)
     (output, err) = process.communicate()
     exit_code = process.wait()
     if err is not None or exit_code != 0:
