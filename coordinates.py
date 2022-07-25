@@ -18,7 +18,6 @@ def get_gps_coordinates() -> Coordinates:
     Return current coordinates from ipinfo.io
     :return: Coordinates
     """
-
     coordinates = _get_coordinates_from_ipinfo()
     return _round_coordinates(coordinates)
 
@@ -41,7 +40,7 @@ def _get_ipinfo_output() -> bytes:
 def _parse_coordinates(ipinfo_output: bytes) -> Coordinates:
     try:
         output = ipinfo_output.decode().strip().lower().split("\n")
-        latitude, longitude = _parse_coord(output, "loc")
+        longitude, latitude = _parse_coord(output, "loc")
     except UnicodeDecodeError:
         raise CantGetCoordinates
     return Coordinates(

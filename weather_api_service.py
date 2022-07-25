@@ -41,7 +41,10 @@ def get_weather(coordinates: Coordinates) -> Weather:
     :return: Weather
     """
     response_from_openweather = _get_weather_from_openweather(
-        longitude=coordinates.longitude, latitude=coordinates.latitude)
+        longitude=coordinates.longitude,
+        latitude=coordinates.latitude
+    )
+
     weather = _parse_response_from_openweather(response_from_openweather)
     return weather
 
@@ -50,7 +53,7 @@ def _get_weather_from_openweather(longitude: float, latitude: float) -> str:
     ssl._create_default_https_context = ssl._create_unverified_context
     url = config.OPENWEATHER_URL.format(latitude=latitude, longitude=longitude)
     try:
-        return urllib.request.urlopen(url).read().decode("utf8")
+        return urllib.request.urlopen(url).read()
     except URLError:
         raise CantGetWeather
 

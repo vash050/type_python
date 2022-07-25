@@ -1,15 +1,23 @@
 #!/usr/bin/env python3.10
 
 from coordinates import get_gps_coordinates
+from exceptions import CantGetCoordinates, CantGetWeather
 from weather_api_service import get_weather
 from weather_formatter import format_weather
 
 
 def main():
-    coordinates = get_gps_coordinates()
-    print(coordinates)
-    weather = get_weather(coordinates)
-    print(weather)
+    # TODO: "try-except"
+    try:
+        coordinates = get_gps_coordinates()
+    except CantGetCoordinates:
+        print("Не смог получить GPS-координаты")
+        exit(1)
+    try:
+        weather = get_weather(coordinates)
+    except CantGetWeather:
+        print("Не смог получить погоду в API-сервиса погоды")
+        exit(1)
     print(format_weather(weather))
 
 
