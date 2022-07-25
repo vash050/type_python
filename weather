@@ -9,6 +9,7 @@ def main():
     coordinates = get_gps_coordinates()
     print(coordinates)
     weather = get_weather(coordinates)
+    print(weather)
     print(format_weather(weather))
 
 
