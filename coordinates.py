@@ -51,7 +51,7 @@ def _parse_coordinates(ipinfo_output: bytes) -> Coordinates:
 
 def _parse_coord(
         output: list[str],
-        coord_type: Literal["loc"]) -> tuple:
+        coord_type: Literal["loc"]) -> list:
     for line in output:
         if re.search(f"{coord_type}", line):
             key, value = line.split()
@@ -60,9 +60,9 @@ def _parse_coord(
         raise CantGetCoordinates
 
 
-def _parse_float_coordinate(value: list[str]) -> tuple[float]:
+def _parse_float_coordinate(value: list[str]) -> list[float]:
     try:
-        return tuple(map(float, value))
+        return list(map(float, value))
     except ValueError:
         raise CantGetCoordinates
 

@@ -1,13 +1,15 @@
 #!/usr/bin/env python3.10
 
+from pathlib import Path
+
 from coordinates import get_gps_coordinates
-from exceptions import CantGetCoordinates, CantGetWeather
+from exceptions import CantGetCoordinates, CantGetWeather, DonNotReadToFileTxt, DonNotReadToFileJson
+from history import save_weather, PlainFileWeatherStorage, JSONFileWeatherStorage
 from weather_api_service import get_weather
 from weather_formatter import format_weather
 
 
 def main():
-    # TODO: "try-except"
     try:
         coordinates = get_gps_coordinates()
     except CantGetCoordinates:
@@ -17,6 +19,22 @@ def main():
         weather = get_weather(coordinates)
     except CantGetWeather:
         print("Не смог получить погоду в API-сервиса погоды")
+        exit(1)
+    try:
+        save_weather(
+            weather,
+            PlainFileWeatherStorage(Path.cwd() / "history.txt")
+        )
+    except DonNotReadToFileTxt:
+        print("Не смог записать историю в файл тхт")
+        exit(1)
+    try:
+        save_weather(
+            weather,
+            JSONFileWeatherStorage(Path.cwd() / "history.json")
+        )
+    except DonNotReadToFileJson:
+        print("Не смог записать историю в файл json")
         exit(1)
     print(format_weather(weather))
 
